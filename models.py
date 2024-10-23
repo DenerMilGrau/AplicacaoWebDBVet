@@ -104,7 +104,6 @@ class Consulta(Base):
     hora = Column(Integer, nullable=False)
     minuto = Column(Integer, nullable=False)
     data = Column(Integer, nullable=False, index=True)
-    ano_nasc_animal = Column(Integer, nullable=False)
     motivo = Column(String(40), nullable=False, index=True)
     id_vet = Column(Integer, ForeignKey('tab_consulta.id_consulta'))
     id_cliente2 = Column(Integer, ForeignKey('tab_cliente.id_cliente'))
@@ -130,7 +129,6 @@ class Consulta(Base):
             'id_animal1': self.id_animal1,
             'id_cliente2': self.id_cliente2,
             'motivo': self.motivo,
-            'ano_nasc_animal': self.ano_nasc_animal,
             'hora': self.hora,
             'minuto': self.minuto,
             'data': self.data,

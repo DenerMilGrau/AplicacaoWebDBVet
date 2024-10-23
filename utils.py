@@ -1,4 +1,4 @@
-from models import Cliente, Animal, db_session
+from models import Cliente, Animal, Consulta, Produto, Veterinario, Categoria, db_session
 from sqlalchemy import select
 
 global escolha_tabela
@@ -39,18 +39,18 @@ if __name__ == '__main__':
     # executa
 
 
-def atualizar_pessoa():
+def atualizar_cliente():
     # selecionar a pessoa a ser alterada
-    var_cliente = select(Cliente).where(str(input('Nome: ')) == Pessoa.nome)
+    var_cliente = select(Cliente).where(str(input('Nome: ')) == Cliente.nome_cliente)
     var_cliente = db_session.execute(var_cliente).scalar()
     # nome adicionado
     var_cliente.nome = str(input('Novo nome: '))
     var_cliente.save()
 
 
-def deletar_pessoa():
+def deletar_cliente():
     pessoa_deletar = input('Quem você deseja deletar? : ')
-    var_pessoa = select(Pessoa).where(pessoa_deletar == Pessoa.nome)
+    var_pessoa = select(Cliente).where(pessoa_deletar == Cliente.nome_cliente)
     var_pessoa = db_session.execute(var_pessoa).scalar()
     var_pessoa.delete()
 
@@ -58,42 +58,39 @@ def deletar_pessoa():
 # **************************************************************************************
 # **************************************************************************************
 
+def inserir_consulta():
+    consulta = Consulta(data_consulta=int(input('Data: ')),
+                        descricao=str(input('Descrição: ')),
+                        id_cliente=int(input('ID Cliente: ')),
+                        id_animal=int(input('ID Animal: ')))
+    print(consulta)
+    consulta.save()
 
-def inserir_atividade():
 
-    atividade = Atividade(nome=str(input('Nome: ')))
-
-    print(atividade)
-    atividade.save()
-
-
-def consultar_atividade():
-    var_atividade = select(Atividade)
-    var_atividade = db_session.execute(var_atividade).all()
-    print(var_atividade)
-
+def consultar_consulta():
+    var_consulta = select(Consulta)
+    var_consulta = db_session.execute(var_consulta).all()
+    print(var_consulta)
 
 if __name__ == '__main__':
-    consultar_atividade()
-    # executa
+    inserir_consulta()
+
+def atualizar_consulta():
+    var_consulta = select(Consulta).where(int(input('ID Consulta: ')) == Consulta.id_consulta)
+    var_consulta = db_session.execute(var_consulta).scalar()
+    var_consulta.descricao = str(input('Nova descrição: '))
+    var_consulta.save()
 
 
-def atualizar_atividade():
-    # selecionar a pessoa a ser alterada
-    var_atividade = select(Atividade).where(str(input('Nome: ')) == Atividade.nome)
-    var_atividade = db_session.execute(var_atividade).scalar()
-    # nome adicionado
-    var_atividade.nome = str(input('Novo nome: '))
-    var_atividade.save()
+def deletar_consulta():
+    consulta_deletar = input('ID da consulta a deletar: ')
+    var_consulta = select(Consulta).where(consulta_deletar == Consulta.id_consulta)
+    var_consulta = db_session.execute(var_consulta).scalar()
+    var_consulta.delete()
 
 
-def deletar_atividade():
-    atividade_deletar = input('Qual você deseja deletar? : ')
-    var_atividade = select(Atividade).where(atividade_deletar == Atividade.nome)
-    var_atividade = db_session.execute(var_atividade).scalar()
-    var_atividade.delete()
-
-
+#######################################################################
+#######################################################################
 if __name__ == '__main__':
 
     while True:
