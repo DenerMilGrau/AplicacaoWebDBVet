@@ -1,0 +1,141 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    background-color: gray;
+}
+header{
+    background-color: #1a1a6c;
+    height: 15vh;
+    line-height: 15vh;
+    text-align: center;
+    font-family: "Gill Sans MT", sans-serif;
+    color: lightblue;
+}
+#logo{
+    /*margin-top: 10px;*/
+    float: left;
+    width: 100px;
+    margin-left: 25px;
+    margin-top: 15px;
+}
+#logo:hover{
+    /*border: 2px solid lightblue;*/
+    /*width: 115px;*/
+    opacity: 50%;
+    /*margin-top: 15px;*/
+    /*margin-left: 15px;*/
+}
+header h1{
+    display: inline-block;
+}
+nav{
+    height: 85vh;
+    width: 20vw;
+    background-color: lightblue;
+    display: inline-block;
+    text-align: center;
+}
+nav a{
+    display: block;
+    padding: 20px;
+    /*text-decoration: none;*/
+    color: #1a1a6c;
+    font-family: "Berlin Sans FB", sans-serif;
+    font-size: 25px;
+}
+nav a:hover{
+    background-color: #84a3af;
+    color: #2a2aa1;
+}
+nav a:active{
+    background-color: lightblue;
+    color: #1a1a6c;
+}
+#link-nav{
+    margin-top: 100px;
+}
+main{
+    background-color: gray;
+    width: 78vw;
+    height: 85vh;
+    float: right;
+    text-align: center;
+
+
+}
+.card{
+    background-color: #b3b3b3;
+    display: inline-block;
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 25px;
+    margin: 25px;
+}
+.card:hover{
+    background-color: white;
+}
+#home{
+    width: 60px;
+    float: right;
+    margin: 25px;
+}
+#home:hover{
+    /*width: 75px;*/
+    /*margin: 15px;*/
+    opacity: 50%;
+}
+button{
+    padding: 20px;
+    border-radius: 10px;
+    border: 0;
+    background-color: lightblue;
+    color: #1a1a6c;
+    font-weight: bold;
+    font-family: "Berlin Sans FB", sans-serif;
+    margin: 20px;
+}
+button:hover{
+
+}
+a{
+    text-decoration: none;
+}
+button a{
+    font-family: "Berlin Sans FB", sans-serif;
+    color: #1a1a6c;
+}
+.cadastro-pessoa{
+    background-color: #1a1a6c;
+    padding: 30px;
+    border-radius: 15px;
+    width: 20vw;
+    font-size: 26px;
+    font-family: Bahnschrift, sans-serif;
+
+}
+.display-block{
+    display: block;
+}
+label{
+    color: lightblue;
+}
+.container{
+    width: 78vw;
+    height: 85vh;
+    float: right;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+input{
+    padding: 15px;
+    border-radius: 10px;
+    border: 0;
+    margin: 10px;
+    &:focus{
+        border: 5px solid red;
+    }
+}

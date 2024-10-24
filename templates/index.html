@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Base de dados</title>
+    <link rel="stylesheet" href="/static/style.css ">
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/12/12638.png">
+</head>
+<body>
+    <header>
+        <a href=""><img id="logo" src="https://cdn-icons-png.flaticon.com/512/12/12638.png" alt="Logo" ></a>
+        <h1>Gerenciador de Banco de Dados</h1>
+        <a href=""><img id="home" src="https://static.thenounproject.com/png/2137554-200.png" alt="Logo"></a>
+    </header>
+    <nav>
+        <a id="link-nav" href="{{ url_for('func_pessoa') }}">PESSOAS</a>
+        <a href="{{ url_for('func_atividade') }}">ATIVIDADES</a>
+    </nav>
+    <main>
+        {% block conteudo %}
+        {% endblock conteudo %}
+        {% for mensagem in get_flashed_messages() %}
+            {{mensagem}}
+        {%endfor%}
+    </main>
+</body>
+</html>

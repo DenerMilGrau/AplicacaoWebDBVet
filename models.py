@@ -51,7 +51,7 @@ class Animal(Base):
     Cliente = relationship('Cliente')
 
     def __repr__(self):
-        return '<Animal: {} - {}>'.format( self.id_animal, self.nome_animal)
+        return '<Animal: {} - {}>'.format(self.id_animal, self.nome_animal)
 
     def save(self):
         db_session.add(self)
@@ -105,12 +105,12 @@ class Consulta(Base):
     minuto = Column(Integer, nullable=False)
     data = Column(Integer, nullable=False, index=True)
     motivo = Column(String(40), nullable=False, index=True)
-    id_vet = Column(Integer, ForeignKey('tab_consulta.id_consulta'))
+    id_vet = Column(Integer, ForeignKey('tab_veterinario.id_vet'))
     id_cliente2 = Column(Integer, ForeignKey('tab_cliente.id_cliente'))
     id_animal1 = Column(Integer, ForeignKey('tab_animal.id_animal'))
 
     Animal = relationship('Animal')
-    Cliente = relationship('Pessoa')
+    Cliente = relationship('Cliente')
     Veterinario = relationship('Veterinario')
 
     def __repr__(self):
@@ -147,7 +147,7 @@ class Veterinario(Base):
 
 #   representacao da clasee
     def __repr__(self):
-        return '<Veterinário: {}  - {} {}>'.format(self.id_vet ,self.nome_vet, self.sobrenome_vet)
+        return '<Veterinário: {}  - {} {}>'.format(self.id_vet, self.nome_vet, self.sobrenome_vet)
     #   salvar funções para executar mais tarde
 
     def save(self):
