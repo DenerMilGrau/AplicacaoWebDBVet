@@ -1,0 +1,5 @@
+join relationship
+banco
+formulario
+tratar erros
+CSS (position, limitar cards por pagina
