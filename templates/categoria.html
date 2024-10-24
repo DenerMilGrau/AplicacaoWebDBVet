@@ -1,0 +1,12 @@
+{% extends 'index.html'%}
+
+{% block conteudo %}
+    {%for item in var_categoria%}
+        <div class="card">
+
+            <p><b>ID:</b> {{item.id_categoria}}</p>
+            <p><b>CATEGORIA:</b> {{item.nome_categoria}}</p>
+<!-- arrumar isso aqui deixaxr em negrito com css-->
+        </div>
+    {% endfor %}
+{% endblock %}

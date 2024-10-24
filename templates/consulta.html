@@ -1,0 +1,13 @@
+{% extends 'index.html'%}
+
+{% block conteudo %}
+    {%for item in var_consulta%}
+        <div class="card">
+
+            <p><b>ID:</b> {{item.id_consulta}}</p>
+            <p><b>ANIMAL:</b> {{item.id_animal1}}</p>
+
+<!-- arrumar isso aqui deixaxr em negrito com css-->
+        </div>
+    {% endfor %}
+{% endblock %}

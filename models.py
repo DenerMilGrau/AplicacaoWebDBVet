@@ -30,7 +30,7 @@ class Cliente(Base):
         db_session.delete(self)
         db_session.commit()
 
-    def serialize_user(self):
+    def serialize_cliente(self):
         dados_cliente = {
             'id_cliente': self.id_cliente,
             'nome_cliente': self.nome_cliente,
@@ -47,8 +47,9 @@ class Animal(Base):
     nome_animal = Column(String(40), nullable=False, index=True)
     raca_animal = Column(String(40), nullable=False, index=True)
     ano_nasc_animal = Column(Integer, nullable=False)
+
     id_cliente1 = Column(Integer, ForeignKey('tab_cliente.id_cliente'))
-    Cliente = relationship('Cliente')
+    cliente = relationship('Cliente')
 
     def __repr__(self):
         return '<Animal: {} - {}>'.format(self.id_animal, self.nome_animal)
@@ -61,14 +62,15 @@ class Animal(Base):
         db_session.delete(self)
         db_session.commit()
 
-    def serialize_user(self):
+    def serialize_animal(self):
         dados_animal = {
             'id_animal': self.id_animal,
             'nome_animal': self.nome_animal,
             'raca_animal': self.raca_animal,
             'ano_nasc_animal': self.ano_nasc_animal,
-
+            'id_cliente1': self.id_cliente1,
         }
+
         return dados_animal
 
 
@@ -89,7 +91,7 @@ class Categoria(Base):
         db_session.delete(self)
         db_session.commit()
 
-    def serialize_user(self):
+    def serialize_categoria(self):
         dados_categoria = {
             'id_categoria': self.id_categoria,
             'nome_categoria': self.nome_categoria,
@@ -104,17 +106,19 @@ class Consulta(Base):
     hora = Column(Integer, nullable=False)
     minuto = Column(Integer, nullable=False)
     data = Column(Integer, nullable=False, index=True)
-    motivo = Column(String(40), nullable=False, index=True)
-    id_vet = Column(Integer, ForeignKey('tab_veterinario.id_vet'))
+    id_vet1 = Column(Integer, ForeignKey('tab_veterinario.id_vet'))
     id_cliente2 = Column(Integer, ForeignKey('tab_cliente.id_cliente'))
     id_animal1 = Column(Integer, ForeignKey('tab_animal.id_animal'))
+    id_motivo1 = Column(Integer, ForeignKey('tab_motivo.id_motivo'))
 
-    Animal = relationship('Animal')
-    Cliente = relationship('Cliente')
-    Veterinario = relationship('Veterinario')
+    animal = relationship('Animal')
+    cliente = relationship('Cliente')
+    veterinario = relationship('Veterinario')
+    motivo = relationship('Motivo')
 
     def __repr__(self):
-        return '<Consulta: {} - {}>'.format(self.id_consulta, self.id_vet)
+        return '<Consulta: {} - {}:{}>'.format(self.id_consulta, self.hora, self.minuto)
+#
 
     def save(self):
         db_session.add(self)
@@ -124,8 +128,9 @@ class Consulta(Base):
         db_session.delete(self)
         db_session.commit()
 
-    def serialize_user(self):
+    def serialize_consulta(self):
         dados_consulta = {
+            'id_consulta': self.id_consulta,
             'id_animal1': self.id_animal1,
             'id_cliente2': self.id_cliente2,
             'motivo': self.motivo,
@@ -158,11 +163,11 @@ class Veterinario(Base):
         db_session.delete(self)
         db_session.commit()
 
-    def serialize_user(self):
+    def serialize_veterinario(self):
         dados_vet = {
-            'id_veterinario': self.id_vet,
-            'nome_veterinario': self.nome_vet,
-            'sobrenome_veterinario': self.sobrenome_vet,
+            'id_vet': self.id_vet,
+            'nome_vet': self.nome_vet,
+            'sobrenome_vet': self.sobrenome_vet,
             'crmv': self.crmv,
             'salario': self.salario,
             'valor_consulta': self.valor_consulta,
@@ -190,7 +195,7 @@ class Produto(Base):
         db_session.delete(self)
         db_session.commit()
 
-    def serialize_user(self):
+    def serialize_produto(self):
         dados_produto = {
             'id_produto': self.id_produto,
             'produto': self.produto,
@@ -198,7 +203,70 @@ class Produto(Base):
         }
         return dados_produto
 
-# cliente*, animal* vet* consulta* e produt*, categoria*
+
+class Venda(Base):
+    __tablename__ = 'tab_venda'
+    id_venda = Column(Integer, primary_key=True)
+    quantidade = Column(Integer, nullable=False)
+    id_cliente3 = Column(Integer, ForeignKey('tab_cliente.id_cliente'))
+    id_produto1 = Column(Integer, ForeignKey('tab_produto.id_produto'))
+    data_venda = Column(Integer, nullable=False, index=True)
+
+    Cliente = relationship('Cliente')
+    Produto = relationship('Produto')
+    def __repr__(self):
+        return '<Venda: {} - {} {}>'.format(self.id_venda, self.data_venda, self.quantidade)
+    #   salvar funções para executar mais tarde
+
+    def save(self):
+        db_session.add(self)
+        db_session.commit()
+
+    def delete(self):
+        db_session.delete(self)
+        db_session.commit()
+
+    def serialize_venda(self):
+        dados_venda = {
+            'id_venda': self.id_venda,
+            'quantidade': self.quantidade,
+            'data': self.data_venda,
+
+        }
+        return dados_venda
+
+
+class Motivo(Base):
+    __tablename__ ='tab_motivo'
+    id_motivo = Column(Integer, primary_key=True)
+    motivo = Column(String(40), nullable=False, index=True)
+    categoria_motivo = Column(String(40), nullable=False, index=True)
+    valor_motivo = Column(Float, nullable=False, index=True)
+
+    def __repr__(self):
+        return '<Motivo: {} - {} >'.format(self.id_motivo, self.motivo)
+    #   salvar funções para executar mais tarde
+
+    def save(self):
+        db_session.add(self)
+        db_session.commit()
+
+    def delete(self):
+        db_session.delete(self)
+        db_session.commit()
+
+    def serialize_motivo(self):
+        dados_motivo = {
+            'id_motivo': self.id_motivo,
+            'valor_motivo': self.valor_motivo,
+            'categoria_motivo': self.categoria_motivo,
+            'motivo': self.motivo
+
+        }
+        return dados_motivo
+# cliente**, animal** vet** consulta* e produt**, categoria*
+
+
 def init_db():
     Base.metadata.create_all(engine)
 

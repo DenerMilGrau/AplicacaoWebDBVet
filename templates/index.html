@@ -9,19 +9,25 @@
 <body>
     <header>
         <a href=""><img id="logo" src="https://cdn-icons-png.flaticon.com/512/12/12638.png" alt="Logo" ></a>
-        <h1>Gerenciador de Banco de Dados</h1>
+        <h1>PetShop</h1>
         <a href=""><img id="home" src="https://static.thenounproject.com/png/2137554-200.png" alt="Logo"></a>
     </header>
     <nav>
-        <a id="link-nav" href="{{ url_for('func_pessoa') }}">PESSOAS</a>
-        <a href="{{ url_for('func_atividade') }}">ATIVIDADES</a>
+        <a id="link-nav" href="{{url_for('clientes_func')}}">CLIENTES</a>
+        <a href="{{url_for('animais_func')}}">ANIMAIS</a>
+        <a href="{{url_for('produtos_func')}}">PRODUTOS</a>
+        <a href="{{url_for('veterinarios_func')}}">VETERINÁRIOS</a>
+        <a href="{{url_for('categorias_func')}}">CATEGORIAS</a>
+        <a href="{{url_for('consultas_func')}}">CONSULTAS</a>
+
     </nav>
     <main>
-        {% block conteudo %}
-        {% endblock conteudo %}
         {% for mensagem in get_flashed_messages() %}
             {{mensagem}}
         {%endfor%}
+
+        {% block conteudo %}
+        {% endblock conteudo %}
     </main>
 </body>
 </html>

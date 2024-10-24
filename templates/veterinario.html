@@ -1,0 +1,15 @@
+{% extends 'index.html'%}
+
+{% block conteudo %}
+    {%for item in var_veterinario%}
+        <div class="card">
+
+            <p><b>ID:</b> {{item.id_vet}}</p>
+            <p><b>NOME:</b> {{item.nome_vet}} {{item.sobrenome_vet}}</p>
+            <p><b>CRMV:</b> {{item.crmv}}</p>
+            <p><b>VALOR(CONSULTA):</b> {{item.valor_consulta}}</p>
+            <p><b>SALÁRIO:</b> {{item.salario}}</p>
+<!-- arrumar isso aqui deixaxr em negrito com css-->
+        </div>
+    {% endfor %}
+{% endblock %}

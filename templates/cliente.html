@@ -1,0 +1,10 @@
+{%extends 'index.html'%}
+
+{%block conteudo%}
+    {% for item in var_cliente%}
+        <div class="card">
+            <p><b>NOME:</b>{{item.nome_cliente}} {{item.sobrenome_cliente}}</p>
+            <p><b>CPF:</b>{{item.cpf}}</p>
+        </div>
+    {% endfor %}
+{%endblock conteudo%}
