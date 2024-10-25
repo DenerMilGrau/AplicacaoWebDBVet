@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey
 from sqlalchemy.orm import scoped_session, sessionmaker, relationship, declarative_base
 
-engine = create_engine('sqlite:///banco_vet.sqlite3')
+engine = create_engine('sqlite:///base_vet_analise_3.sqlite3')
 db_session = scoped_session(sessionmaker(bind=engine))
 #   bases declarativas permite q classes python representem tabelas
 # sem precisar configurar a relação entre elas
@@ -14,12 +14,13 @@ class Cliente(Base):
     __tablename__ = 'tab_cliente'
     id_cliente = Column(Integer, primary_key=True)
     nome_cliente = Column(String(40), nullable=False, index=True)
-    sobrenome_cliente = Column(String(40), nullable=False, index=True)
     cpf = Column(Integer, nullable=False, index=True, unique=True)
-
+    telefone_cliente = Column(String(20), nullable=False, index=True)
+    profissao_cliente = Column(String(40), nullable=False, index=True)
+    area_cliente = Column(String(40), nullable=False, index=True)
 #   representacao da clasee
     def __repr__(self):
-        return '<Cliente: {}  - {} {}>'.format(self.id_cliente ,self.nome_cliente, self.sobrenome_cliente)
+        return '<Cliente: {}  - {}>'.format(self.id_cliente, self.nome_cliente)
     #   salvar funções para executar mais tarde
 
     def save(self):
@@ -34,7 +35,9 @@ class Cliente(Base):
         dados_cliente = {
             'id_cliente': self.id_cliente,
             'nome_cliente': self.nome_cliente,
-            'sobrenome_cliente': self.sobrenome_cliente,
+            'telefone_cliente': self.telefone_cliente,
+            'profissao_cliente': self.profissao_cliente,
+            'area_cliente': self.area_cliente,
             'cpf': self.cpf,
         }
         return dados_cliente
@@ -107,12 +110,12 @@ class Consulta(Base):
     minuto = Column(Integer, nullable=False)
     data = Column(Integer, nullable=False, index=True)
     id_vet1 = Column(Integer, ForeignKey('tab_veterinario.id_vet'))
-    id_cliente2 = Column(Integer, ForeignKey('tab_cliente.id_cliente'))
+    # id_cliente2 = Column(Integer, ForeignKey('tab_cliente.id_cliente'))
     id_animal1 = Column(Integer, ForeignKey('tab_animal.id_animal'))
     id_motivo1 = Column(Integer, ForeignKey('tab_motivo.id_motivo'))
 
     animal = relationship('Animal')
-    cliente = relationship('Cliente')
+    # cliente = relationship('Cliente')
     veterinario = relationship('Veterinario')
     motivo = relationship('Motivo')
 
@@ -132,8 +135,9 @@ class Consulta(Base):
         dados_consulta = {
             'id_consulta': self.id_consulta,
             'id_animal1': self.id_animal1,
-            'id_cliente2': self.id_cliente2,
-            'motivo': self.motivo,
+            # 'id_cliente2': self.id_cliente2,
+            'id_motivo1': self.id_motivo1,
+            'id_vet1': self.id_vet1,
             'hora': self.hora,
             'minuto': self.minuto,
             'data': self.data,
@@ -145,14 +149,13 @@ class Veterinario(Base):
     __tablename__ = 'tab_veterinario'
     id_vet = Column(Integer, primary_key=True)
     nome_vet = Column(String(40), nullable=False, index=True)
-    sobrenome_vet = Column(String(40), nullable=False, index=True)
     crmv = Column(Integer, nullable=False, index=True, unique=True)
     salario = Column(Float, nullable=False, index=True)
     valor_consulta = Column(Float, nullable=False, index=True)
 
 #   representacao da clasee
     def __repr__(self):
-        return '<Veterinário: {}  - {} {}>'.format(self.id_vet, self.nome_vet, self.sobrenome_vet)
+        return '<Veterinário: {}  - {}>'.format(self.id_vet, self.nome_vet)
     #   salvar funções para executar mais tarde
 
     def save(self):
@@ -167,7 +170,6 @@ class Veterinario(Base):
         dados_vet = {
             'id_vet': self.id_vet,
             'nome_vet': self.nome_vet,
-            'sobrenome_vet': self.sobrenome_vet,
             'crmv': self.crmv,
             'salario': self.salario,
             'valor_consulta': self.valor_consulta,
@@ -184,7 +186,7 @@ class Produto(Base):
 
 #   representacao da clasee
     def __repr__(self):
-        return '<Cliente: {} - {} {}>'.format(self.id_produto ,self.produto, self.preco)
+        return '<Produto: {} - {} {}>'.format(self.id_produto, self.produto, self.preco)
     #   salvar funções para executar mais tarde
 
     def save(self):
@@ -264,7 +266,7 @@ class Motivo(Base):
 
         }
         return dados_motivo
-# cliente**, animal** vet** consulta* e produt**, categoria*
+# cliente**, animal** vet** consulta* e produt**, categoria*, venda**, motivo
 
 
 def init_db():

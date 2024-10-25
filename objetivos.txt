@@ -1,5 +1,5 @@
-join relationship
-banco
+join relationship**
+banco**
 formulario
 tratar erros
-CSS (position, limitar cards por pagina
+CSS (position, limitar cards por pagina, alinhar cards, alinhar texto dos cards)

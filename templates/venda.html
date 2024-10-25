@@ -1,0 +1,16 @@
+{%extends 'index.html'%}
+
+{%block conteudo%}
+    {% for venda, cliente, produto, cat in var_venda%}
+        <div class="card">
+            <p><b>ID:</b>{{venda.id_venda}}</p>
+            <p><b>Produto:</b>{{produto.produto}}</p>
+            <p><b>Quantidade:</b>{{venda.quantidade}}</p>
+            <p><b>Cliente:</b>{{cliente.nome_cliente}}</p>
+
+            <p><b>Categoria:</b>{{cat.nome_categoria}}</p>
+
+
+        </div>
+    {% endfor %}
+{%endblock conteudo%}

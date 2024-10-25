@@ -1,11 +1,14 @@
 {% extends 'index.html'%}
 
 {% block conteudo %}
-    {%for item in var_consulta%}
+    {%for consulta, vet, motivo, animal, cliente in var_consulta%}
         <div class="card">
 
-            <p><b>ID:</b> {{item.id_consulta}}</p>
-            <p><b>ANIMAL:</b> {{item.id_animal1}}</p>
+            <p><b>ID:</b> {{consulta.id_consulta}}</p>
+            <p><b>ANIMAL:</b> {{animal.id_animal}}-{{animal.nome_animal}}</p>
+            <p><b>Veterinario:</b> {{vet.nome_vet}}</p>
+            <p><b>MOTIVO:</b> {{motivo.motivo}}</p>
+            <p><b>CLIENTE:</b> {{cliente.nome_cliente}}</p>
 
 <!-- arrumar isso aqui deixaxr em negrito com css-->
         </div>

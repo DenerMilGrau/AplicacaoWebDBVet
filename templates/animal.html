@@ -2,17 +2,16 @@
 
 {% block conteudo %}
 <h2>Animais</h2>
-    {% for item in var_animal %}
+    {% for animal, cliente in var_animal %}
         <div class="card">
 
-            <p><b>ID:</b> {{item.id_animal}}</p>
-            <p><b>NOME:</b> {{item.nome_animal}}</p>
-            <p><b>RAÇA:</b> {{item.raca_animal}}</p>
-            <p><b>NASCIMENTO:</b> {{item.ano_nasc_animal}}</p>
-            <p><b>CLIENTE:</b> {{item.id_cliente1}}</p>
-            {% for nome in nome_cliente %}
-                <p>nome: {{nome.nome_cliente}}</p>
-            {% endfor %}
+            <p><b>ID:</b> {{animal.id_animal}}</p>
+            <p><b>NOME:</b> {{animal.nome_animal}}</p>
+            <p><b>RAÇA:</b> {{animal.raca_animal}}</p>
+            <p><b>NASCIMENTO:</b> {{animal.ano_nasc_animal}}</p>
+            <p><b>CLIENTE:</b> {{animal.id_cliente1}}</p>
+            <p><b>TUTOR:</b> {{cliente.nome_cliente}}</p>
+
 <!-- arrumar isso aqui deixar em negrito com css-->
         </div>
 

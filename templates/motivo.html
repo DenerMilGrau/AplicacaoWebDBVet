@@ -1,0 +1,12 @@
+{%extends 'index.html'%}
+
+{%block conteudo%}
+    {% for item in var_motivo%}
+        <div class="card">
+            <p><b>ID:</b>{{item.id_motivo}}</p>
+            <p><b>NOME:</b>{{item.motivo}}</p>
+            <p><b>CATEGORIA:</b>{{item.categoria_motivo}}</p>
+            <p><b>VALOR:</b>{{item.valor_motivo}}</p>
+        </div>
+    {% endfor %}
+{%endblock conteudo%}
