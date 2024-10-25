@@ -1,0 +1,32 @@
+{%extends 'index.html'%}
+
+{%block conteudo%}
+
+<div class="container">
+    <div class="cadastro-div">
+        <form action="{{url_for('cadastro_animais_func')}}" method="POST">
+            <span class="display-inline-block">
+                <label for="nome">Nome:</label><br>
+                <input id="nome" type="text" name="form-nome-animal">
+            </span>
+            <span class="display-inline-block">
+                <label for="raca">Raça:</label><br>
+                <input id="raca" type="number" name="form-raca">
+            </span>
+            <span class="display-inline-block">
+                <label for="ano_nasc">Ano de nascimento:</label><br>
+                <input id="ano_nasc" type="number" name="form-ano-nasc">
+            </span>
+
+
+            <span class="display-block">
+                <button><a href="{{url_for('animais_func')}}">VOLTAR</a></button>
+                <button>SALVAR</button>
+            </span>
+        </form>
+    </div>
+</div>
+
+
+
+{%endblock conteudo%}

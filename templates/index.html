@@ -10,7 +10,7 @@
     <header>
         <a href=""><img id="logo" src="https://cdn-icons-png.flaticon.com/512/12/12638.png" alt="Logo" ></a>
         <h1>PetShop</h1>
-        <a href=""><img id="home" src="https://static.thenounproject.com/png/2137554-200.png" alt="Logo"></a>
+        <a href="{{url_for('home')}}"><img id="home" src="https://static.thenounproject.com/png/2137554-200.png" alt="Logo"></a>
     </header>
     <nav>
         <a id="link-nav" href="{{url_for('clientes_func')}}">CLIENTES</a>
@@ -23,9 +23,14 @@
         <a href="{{url_for('motivos_func')}}">MOTIVOS</a>
     </nav>
     <main>
-        {% for mensagem in get_flashed_messages() %}
-            {{mensagem}}
-        {%endfor%}
+
+
+        {%- for msg in get_flashed_messages() %}
+            <div class="flash">
+                {{msg}}
+            </div>
+        {%-endfor%}
+
 
         {% block conteudo %}
         {% endblock conteudo %}

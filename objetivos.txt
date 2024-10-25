@@ -1,5 +1,12 @@
 join relationship**
 banco**
-formulario
-tratar erros
-CSS (position, limitar cards por pagina, alinhar cards, alinhar texto dos cards)
+formulario**
+tratar erros**
+não apagar os campos quando flash
+CSS (position**, paginaçao!, )
+fazer pagina individual!
+barra de pesquisa!
+
+relatorios e insights$$$$$$$$$$$$$$$$$$
+
+Verificar DER da SA

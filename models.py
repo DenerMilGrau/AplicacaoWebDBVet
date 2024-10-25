@@ -14,8 +14,8 @@ class Cliente(Base):
     __tablename__ = 'tab_cliente'
     id_cliente = Column(Integer, primary_key=True)
     nome_cliente = Column(String(40), nullable=False, index=True)
-    cpf = Column(Integer, nullable=False, index=True, unique=True)
-    telefone_cliente = Column(String(20), nullable=False, index=True)
+    cpf = Column(String(13), nullable=False, index=True, unique=True)
+    telefone_cliente = Column(String(13), nullable=False, index=True)
     profissao_cliente = Column(String(40), nullable=False, index=True)
     area_cliente = Column(String(40), nullable=False, index=True)
 #   representacao da clasee

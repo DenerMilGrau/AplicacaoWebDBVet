@@ -1,0 +1,38 @@
+{%extends 'index.html'%}
+
+{%block conteudo%}
+
+<!--<div class="container">-->
+    <div class="cadastro-div">
+        <form action="{{url_for('cadastro_clientes_func')}}" method="POST">
+            <span class="display-inline-block">
+                <label for="nome">Nome completo:</label><br>
+                <input id="nome" type="text" name="form-nome-cliente">
+            </span>
+            <span class="display-inline-block">
+                <label for="cpf">CPF:</label><br>
+                <input id="cpf" type="number" name="form-cpf">
+            </span>
+            <span class="display-inline-block">
+                <label for="telefone">Telefone:</label><br>
+                <input id="telefone" type="number" name="form-telefone-cliente">
+            </span>
+            <span class="display-inline-block">
+                <label for="profissao">Profissão:</label><br>
+                <input id="profissao" type="text" name="form-profissao-cliente">
+            </span>
+            <span class="display-inline-block">
+                <label for="area">Área de trabalho:</label><br>
+                <input id="area" type="text" name="form-area-cliente">
+            </span>
+            <span class="display-block">
+                <button><a href="{{url_for('clientes_func')}}">VOLTAR</a></button>
+                <button>SALVAR</button>
+            </span>
+        </form>
+    </div>
+<!--</div>-->
+
+
+
+{%endblock conteudo%}

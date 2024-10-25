@@ -12,6 +12,11 @@ header{
     text-align: center;
     font-family: "Gill Sans MT", sans-serif;
     color: lightblue;
+    width: 100vw;
+
+    position: fixed;
+    top: 0;
+
 }
 #logo{
     /*margin-top: 10px;*/
@@ -19,6 +24,8 @@ header{
     width: 70px;
     margin-left: 25px;
     margin-top: 3vh;
+    transition: transform .2s;
+
 }
 #logo:hover{
     /*border: 2px solid lightblue;*/
@@ -26,17 +33,22 @@ header{
     opacity: 50%;
     /*margin-top: 15px;*/
     /*margin-left: 15px;*/
+    transform: scale(1.2);
 }
 header h1{
     display: inline-block;
 }
 nav{
+
     height: 85vh;
     width: 20vw;
     background-color: lightblue;
     display: inline-block;
     text-align: center;
     float: left;
+    position: fixed;
+    top: 15vh;
+
 }
 nav a{
     display: block;
@@ -45,6 +57,7 @@ nav a{
     color: #1a1a6c;
     font-family: "Berlin Sans FB", sans-serif;
     font-size: 25px;
+
 }
 nav a:hover{
     background-color: #84a3af;
@@ -55,7 +68,7 @@ nav a:active{
     color: #1a1a6c;
 }
 #link-nav{
-    margin-top: 100px;
+    margin-top: 5vh;
 }
 main{
     background-color: gray;
@@ -63,16 +76,21 @@ main{
     height: 85vh;
     float: right;
     text-align: center;
+    margin-top: 15vh;
+    align-content: center;
 
 }
+
 
 .card{
     background-color: #b3b3b3;
     display: inline-block;
     padding: 20px;
     border-radius: 10px;
-    font-size: 24px;
+    font-size: 20px;
     margin: 25px;
+    text-align: left;
+    width: 250px;
 }
 .card:hover{
     background-color: white;
@@ -84,11 +102,13 @@ main{
     width: 60px;
     float: right;
     margin: 25px;
+    transition: transform .2s;
 }
 #home:hover{
     /*width: 75px;*/
     /*margin: 15px;*/
     opacity: 50%;
+    transform: scale(1.5);
 }
 button{
     padding: 20px;
@@ -110,14 +130,18 @@ button a{
     font-family: "Berlin Sans FB", sans-serif;
     color: #1a1a6c;
 }
-.cadastro-pessoa{
+.cadastro-div{
     background-color: #1a1a6c;
-    padding: 30px;
+    padding: 20px;
     border-radius: 15px;
-    width: 20vw;
+    width: 40vw;
     font-size: 26px;
     font-family: Bahnschrift, sans-serif;
+    margin-left: 20vw;
 
+}
+.display-inline-block{
+    display: inline-block;
 }
 .display-block{
     display: block;
@@ -127,7 +151,7 @@ label{
 }
 .container{
     width: 78vw;
-    height: 85vh;
+    height: 80vh;
     float: right;
     display: flex;
     flex-direction: row;
@@ -139,7 +163,37 @@ input{
     border-radius: 10px;
     border: 0;
     margin: 10px;
-    &:focus{
-        border: 5px solid red;
-    }
+    /*&:focus{*/
+    /*    border: 5px solid red;*/
+    /*}*/
+}
+.card b{
+    font-family: "Gill Sans MT", sans-serif;
+}
+
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+
+}
+/*input[type=number] {*/
+/*   -moz-appearance: textfield;*/
+/*   appearance: textfield;*/
+
+/*}*/
+.flash{
+    background-color: red;
+    border-radius: 20px;
+    opacity: 50%;
+    font-family: "Arial Black", sans-serif;
+    font-size: 26px;
+    display: inline-block;
+    padding: 5px;
+}
+#botao{
+    margin-left: 35vw;
+    display: block;
+}
+.titulo{
+    font-family: "Berlin Sans FB", sans-serif;
+    font-size: 36px;
 }

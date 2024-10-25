@@ -41,7 +41,7 @@ def animais_func():
     return render_template('animal.html', var_animal=lista_animais)
 
 
-@app.route('/consulta')
+@app.route('/consultas')
 def consultas_func():
     lista_consultas_sql = (select(Consulta, Veterinario, Motivo, Animal, Cliente).join(Veterinario, Consulta.id_vet1 == Veterinario.id_vet).join(
         Animal, Consulta.id_animal1 == Animal.id_animal).join(Cliente, Animal.id_cliente1 == Cliente.id_cliente).join(
@@ -52,7 +52,7 @@ def consultas_func():
     return render_template('consulta.html', var_consulta=lista_consultas)
 
 
-@app.route('/produto')
+@app.route('/produtos')
 def produtos_func():
     lista_produtos = select(Produto).select_from(Produto)
     lista_produtos = db_session.execute(lista_produtos).scalars()
@@ -62,7 +62,7 @@ def produtos_func():
     return render_template('produto.html', var_produto=resultado)
 
 
-@app.route('/veterinario')
+@app.route('/veterinarios')
 def veterinarios_func():
     lista_veterinarios = select(Veterinario).select_from(Veterinario)
     lista_veterinarios = db_session.execute(lista_veterinarios).scalars()
@@ -72,7 +72,7 @@ def veterinarios_func():
     return render_template('veterinario.html', var_veterinario=resultado)
 
 
-@app.route('/categoria')
+@app.route('/categorias')
 def categorias_func():
     lista_categorias = select(Categoria).select_from(Categoria)
     lista_categorias = db_session.execute(lista_categorias).scalars()
@@ -82,7 +82,7 @@ def categorias_func():
     return render_template('categoria.html', var_categoria=resultado)
 
 
-@app.route('/venda')
+@app.route('/vendas')
 def vendas_func():
     lista_vendas_sql = (select(Venda, Cliente, Produto, Categoria).join(Cliente, Venda.id_cliente3 == Cliente.id_cliente).join(
         Produto, Venda.id_produto1 == Produto.id_produto).join
@@ -93,7 +93,7 @@ def vendas_func():
     return render_template('venda.html', var_venda=lista_vendas)
 
 
-@app.route('/motivo')
+@app.route('/motivos')
 def motivos_func():
     lista_motivos = select(Motivo)
     lista_motivos = db_session.execute(lista_motivos).scalars()
@@ -102,6 +102,66 @@ def motivos_func():
         resultado.append(motivo.serialize_motivo())
 
     return render_template('motivo.html', var_motivo=resultado)
+
+
+@app.route('/clientes/cadastro', methods=['GET', 'POST'])
+def cadastro_clientes_func():
+    if request.method == "POST":
+        nome = request.form['form-nome-cliente']
+        profissao = request.form['form-profissao-cliente']
+        area = request.form['form-area-cliente']
+        cpf = request.form['form-cpf']
+        telefone = request.form['form-telefone-cliente']
+        # preciso verificar se o cpf é unico para evitar um erro de integridade
+        if not nome or not telefone or not cpf or not profissao or not area:
+            flash('Todos os campos devem estar preenchidos!', 'error')
+        else:
+            if len(cpf) != 11:
+                flash('O CPF deve ter 11 digitos!', 'error')
+            else:
+                if len(telefone) != 11:
+                    flash('Um telefone deve ter 11 digitos', 'error')
+                else:
+
+                    cpf_ = str(cpf)
+                    cpf_f = '{0}.{1}.{2}-{3}'.format(cpf_[:3], cpf_[3:6], cpf_[6:9], cpf_[9:])
+                    telefone_ = str(telefone)
+                    cpf_cliente = select(Cliente).where(Cliente.cpf == cpf_)
+                    cpf_cliente = db_session.execute(cpf_cliente).scalar()
+                    if not cpf_cliente:
+                        form_add = Cliente(nome_cliente=nome, telefone_cliente=telefone_, cpf=cpf_f,
+                                           profissao_cliente=profissao, area_cliente=area)
+                        form_add.save()
+                        db_session.close()
+                        flash('Cliente cadastrado com sucesso!', 'success')
+                    else:
+                        flash('CPF ja existe!', 'error')
+
+    return render_template('/form/cadastro-cliente.html')
+
+
+@app.route('/animais/cadastro', methods=['GET', 'POST'])
+def cadastro_animais_func():
+    if request.method == "POST":
+        nome = request.form['form-nome-animal']
+        raca = request.form['form-raca']
+        ano_nasc = request.form['form-ano-nasc']
+        if not nome or not raca or not ano_nasc:
+            flash('Todos os campos precisam ser preenchidos', 'error')
+        else:
+            try:
+                ano_nasc_int = int(ano_nasc)
+                if ano_nasc_int < 2000 or ano_nasc_int > 2024:
+                    flash('Informe os valores corretos!', 'error')
+                else:
+                    form_add = Animal(nome_animal=nome, raca_animal=raca, ano_nasc_animal=ano_nasc_int)
+                    form_add.save()
+                    db_session.close()
+                    flash('Cliente cadastrado com sucesso!', 'success')
+
+            except ValueError:
+                flash('Informe os valores corretos!', 'error')
+    return render_template('/form/cadastro-animal.html')
 
 
 if __name__ == '__main__':
