@@ -1,7 +1,9 @@
 {% extends 'index.html' %}
 
 {% block conteudo %}
-<h2>Animais</h2>
+<h1 class="titulo">Animais</h1>
+
+    <button class="botao"><a  href="{{url_for('cadastro_animais_func')}}"> CADASTRAR </a></button>
     {% for animal, cliente in var_animal %}
         <div class="card">
 

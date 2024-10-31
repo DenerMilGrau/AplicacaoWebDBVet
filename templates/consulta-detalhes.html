@@ -1,0 +1,15 @@
+{% extends 'index.html' %}
+
+{% block conteudo %}
+    <div class="card">
+        <h2>Detalhes da Consulta #{{ consulta[0].id_consulta }}</h2>
+        <p><b>Animal:</b> {{ consulta[3].nome_animal }}</p>
+        <p><b>Veterinário:</b> {{ consulta[1].nome_vet }}</p>
+        <p><b>Motivo:</b> {{ consulta[2].motivo }}</p>
+        <p><b>Cliente:</b> {{ consulta[4].nome_cliente }}</p>
+        <p><b>Data da Consulta:</b><br> {{ consulta[0].data }}</p>
+        <p><b>Horário da Consulta:</b><br> {{ consulta[0].hora }}:{{ consulta[0].minuto }}</p>
+
+    </div>
+    <a href="{{url_for('consultas_func')}}"><img id="voltar-icon" alt="voltar" src="https://cdn-icons-png.freepik.com/256/608/608095.png?semt=ais_hybrid"></a>
+{% endblock %}

@@ -52,6 +52,19 @@ def consultas_func():
     return render_template('consulta.html', var_consulta=lista_consultas)
 
 
+@app.route('/consultas/<int:id_consulta>')
+def consulta_detalhes_func(id_consulta):
+    consulta_sql = (select(Consulta, Veterinario, Motivo, Animal, Cliente)
+                    .where(Consulta.id_consulta == id_consulta)
+                    .join(Veterinario, Consulta.id_vet1 == Veterinario.id_vet)
+                    .join(Animal, Consulta.id_animal1 == Animal.id_animal)
+                    .join(Cliente, Animal.id_cliente1 == Cliente.id_cliente)
+                    .join(Motivo, Consulta.id_motivo1 == Motivo.id_motivo))
+
+    consulta_detalhada = db_session.execute(consulta_sql).fetchone()
+    return render_template('consulta-detalhes.html', consulta=consulta_detalhada)
+
+
 @app.route('/produtos')
 def produtos_func():
     lista_produtos = select(Produto).select_from(Produto)
@@ -100,6 +113,11 @@ def motivos_func():
     resultado=[]
     for motivo in lista_motivos:
         resultado.append(motivo.serialize_motivo())
+    dicio = {
+        "motivo": "Motivo",
+        "categoria_motivo": "Categoria motivo",
+        "valor_motivo": "Valor motivo",
+    }
 
     return render_template('motivo.html', var_motivo=resultado)
 
@@ -125,11 +143,14 @@ def cadastro_clientes_func():
 
                     cpf_ = str(cpf)
                     cpf_f = '{0}.{1}.{2}-{3}'.format(cpf_[:3], cpf_[3:6], cpf_[6:9], cpf_[9:])
-                    telefone_ = str(telefone)
+
                     cpf_cliente = select(Cliente).where(Cliente.cpf == cpf_)
                     cpf_cliente = db_session.execute(cpf_cliente).scalar()
                     if not cpf_cliente:
-                        form_add = Cliente(nome_cliente=nome, telefone_cliente=telefone_, cpf=cpf_f,
+                        tel = str(telefone)
+                        telefone = '({0}){1}-{2}'.format(tel[:2], tel[2:7], tel[7:])
+
+                        form_add = Cliente(nome_cliente=nome, telefone_cliente=telefone, cpf=cpf_f,
                                            profissao_cliente=profissao, area_cliente=area)
                         form_add.save()
                         db_session.close()
@@ -162,6 +183,11 @@ def cadastro_animais_func():
             except ValueError:
                 flash('Informe os valores corretos!', 'error')
     return render_template('/form/cadastro-animal.html')
+
+
+@app.route('/sobre-nos')
+def sobre_nos_func():
+    return render_template('sobre-nos.html')
 
 
 if __name__ == '__main__':

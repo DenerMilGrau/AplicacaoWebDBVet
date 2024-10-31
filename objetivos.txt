@@ -2,11 +2,12 @@ join relationship**
 banco**
 formulario**
 tratar erros**
-não apagar os campos quando flash
-CSS (position**, paginaçao!, )
-fazer pagina individual!
-barra de pesquisa!
 
-relatorios e insights$$$$$$$$$$$$$$$$$$
+CSS (position**, paginaçao!, )****
+fazer pagina individual! ******
+barra de pesquisa
+order by
+não apagar os campos quando flash
+relatorios e insights$$$$$$$$$$$$$$$$$$ ver com o luis
 
 Verificar DER da SA

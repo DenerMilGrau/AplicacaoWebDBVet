@@ -1,6 +1,7 @@
 {% extends 'index.html'%}
 
 {% block conteudo %}
+
     {%for consulta, vet, motivo, animal, cliente in var_consulta%}
         <div class="card">
 
@@ -9,7 +10,7 @@
             <p><b>Veterinario:</b> {{vet.nome_vet}}</p>
             <p><b>MOTIVO:</b> {{motivo.motivo}}</p>
             <p><b>CLIENTE:</b> {{cliente.nome_cliente}}</p>
-
+            <a href="{{ url_for('consulta_detalhes_func', id_consulta=consulta.id_consulta) }}">Ver Detalhes</a>
 <!-- arrumar isso aqui deixaxr em negrito com css-->
         </div>
     {% endfor %}

@@ -1,4 +1,13 @@
-cpf = '12345678901'
+# tel = '18991085823'
+#
+# telefone = '({0}){1}-{2}'.format(tel[:2], tel[2:7], tel[7:])
+#
 
-cpf_f = '{0}.{1}.{2}-{3}'.format(cpf[:3], cpf[3:6], cpf[6:9], cpf[9:])
-float(cpf_f)
+dicio = {
+    'nome1': 'valor1',
+    'nome2': 'valor2',
+    'nome3': 'valor3'
+}
+
+for name, value in dicio.items():
+    print(name, value)

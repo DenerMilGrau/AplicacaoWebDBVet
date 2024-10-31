@@ -4,6 +4,10 @@
 }
 body{
     background-color: gray;
+
+}
+body::-webkit-scrollbar {
+    display: none;
 }
 header{
     background-color: #1a1a6c;
@@ -31,8 +35,7 @@ header{
     /*border: 2px solid lightblue;*/
     /*width: 115px;*/
     opacity: 50%;
-    /*margin-top: 15px;*/
-    /*margin-left: 15px;*/
+
     transform: scale(1.2);
 }
 header h1{
@@ -98,18 +101,7 @@ main{
 .bold{
     font-weight: bold;
 }
-#home{
-    width: 60px;
-    float: right;
-    margin: 25px;
-    transition: transform .2s;
-}
-#home:hover{
-    /*width: 75px;*/
-    /*margin: 15px;*/
-    opacity: 50%;
-    transform: scale(1.5);
-}
+
 button{
     padding: 20px;
     border-radius: 10px;
@@ -188,12 +180,34 @@ input[type=number]::-webkit-inner-spin-button {
     font-size: 26px;
     display: inline-block;
     padding: 5px;
+    margin-bottom: 80px;
 }
-#botao{
+.botao{
     margin-left: 35vw;
     display: block;
 }
 .titulo{
     font-family: "Berlin Sans FB", sans-serif;
     font-size: 36px;
+}
+#voltar-icon{
+    width: 80px;
+    display: block;
+}
+#voltar-icon:hover{
+    opacity: 50%;
+    transform: scale(1.1);
+}
+
+#home{
+    width: 60px;
+    float: right;
+    margin: 25px;
+    transition: transform .2s;
+}
+#home:hover{
+    /*width: 75px;*/
+    /*margin: 15px;*/
+    opacity: 50%;
+    transform: scale(1.5);
 }

@@ -3,7 +3,7 @@
 {%block conteudo%}
     <h1 class="titulo">Clientes</h1>
 
-    <button id="botao"><a  href="{{url_for('cadastro_clientes_func')}}"> CADASTRAR </a></button>
+    <button class="botao"><a  href="{{url_for('cadastro_clientes_func')}}"> CADASTRAR </a></button>
     {% for item in var_cliente%}
         <div class="card">
             <p><b>NOME:</b>{{item.nome_cliente}}</p>
