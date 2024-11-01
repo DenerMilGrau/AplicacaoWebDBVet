@@ -4,6 +4,9 @@
     <h1 class="titulo">Clientes</h1>
 
     <button class="botao"><a  href="{{url_for('cadastro_clientes_func')}}"> CADASTRAR </a></button>
+    <button class="botao"><a  href="{{url_for('clientes_func', order=classificar)}}"> ORDENAR </a></button>
+
+
     {% for item in var_cliente%}
         <div class="card">
             <p><b>NOME:</b>{{item.nome_cliente}}</p>
