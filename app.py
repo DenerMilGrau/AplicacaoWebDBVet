@@ -68,19 +68,15 @@ def consultas_func():
         Animal, Consulta.id_animal1 == Animal.id_animal).join(Cliente, Animal.id_cliente1 == Cliente.id_cliente).join(
         Motivo, Consulta.id_motivo1 == Motivo.id_motivo))
 
+
     resultado = db_session.execute(lista_consultas_sql).fetchall()
-    print(resultado)
-    var_consulta_app = resultado
-    var_consulta_html = request.args.get('var_consulta')
-    print('html:{var_consulta_html}')
-    if var_consulta_html != 'None':
-        resultado = var_consulta_html
     dicion = dicionario_colunas_consulta()
     return render_template('consulta.html', var_consulta=resultado, dicio=dicion, class_=Consulta)
 
 
 @app.route('/consultas/<int:id_consulta>')
-def consulta_detalhes_func(id_consulta):
+@app.route('/consultas/<int:id_consulta>/<valor_pesquisado>/<tipo_pesquisa>')
+def consulta_detalhes_func(id_consulta, tipo_pesquisa=None, valor_pesquisado=None):
 
     var_consulta = request.args.get('var_consulta')
     print(f'detalhes:{var_consulta}')
@@ -92,7 +88,8 @@ def consulta_detalhes_func(id_consulta):
                     .join(Motivo, Consulta.id_motivo1 == Motivo.id_motivo))
 
     consulta_detalhada = db_session.execute(consulta_sql).fetchone()
-    return render_template('consulta-detalhes.html', consulta=consulta_detalhada, var_consulta=var_consulta)
+
+    return render_template('consulta-detalhes.html', consulta=consulta_detalhada, var_consulta=var_consulta, tipo_pesquisa=tipo_pesquisa, valor_pesquisado=valor_pesquisado)
 
 
 @app.route('/produtos')
@@ -125,7 +122,7 @@ def categorias_func():
     return render_template('categoria.html', var_categoria=resultado)
 
 
-@app.route('/vendas')
+@app.route('/vendas', methods=['GET'])
 def vendas_func():
     lista_vendas_sql = (select(Venda, Cliente, Produto, Categoria).join(Cliente, Venda.id_cliente3 == Cliente.id_cliente).join(
         Produto, Venda.id_produto1 == Produto.id_produto).join
@@ -160,52 +157,61 @@ dicionario_classes = {
 }
 
 
-@app.route('/pesquisar_<class_>', methods=['GET', 'POST'])
-def pesquisar_func(class_):
+@app.route('/pesquisar_/<class_>/<str:tipo_pesquisa>/<str:valor_pesquisa>', methods=['GET', 'POST'])
+def pesquisar_func(class_=None, tipo_pesquisa=None, valor_pesquisa=None):
     global lista_consultas_sql
-    if request.method == 'GET':
-        campo = request.args.get('campo')
-        classe = dicionario_classes[class_]
-    elif request.method == 'POST':
-        campo = request.form['campo']
-        print(f'campo : {campo}')
-        classe = dicionario_classes[class_]
-        print(f'class : {classe}')
-        termo_pesquisa = request.form.get('form-pesquisa')
-        print(f'termo : {termo_pesquisa}')
-        if not campo or not termo_pesquisa:
-            flash('Por favor, selecione um campo e insira um termo de pesquisa.')
-            # return redirect(url_for('motivos_func'))
+    campo = tipo_pesquisa
+    termo_pesquisa = valor_pesquisa
+    classe = dicionario_classes[class_]
+    if termo_pesquisa != "":
+        print('valor recebido')
 
-        if classe == Consulta:
-            if campo == 'id_cliente':
-                classe = Cliente
-            if campo in ['id_consulta', 'id_motivo1', 'id_animal1', 'id_vet1', 'id_cliente']:
-                lista_consultas_sql = (select(Consulta, Veterinario, Motivo, Animal, Cliente)
-                .join(Veterinario,Consulta.id_vet1 == Veterinario.id_vet)
-                .join(Animal, Consulta.id_animal1 == Animal.id_animal)
-                .join(Cliente,Animal.id_cliente1 == Cliente.id_cliente)
-                .join(Motivo, Consulta.id_motivo1 == Motivo.id_motivo)).where(getattr(classe, campo) == termo_pesquisa)
-            elif campo not in ['id_consulta', 'id_motivo1', 'id_animal1', 'id_vet1', 'id_cliente']:
-                lista_consultas_sql = (select(Consulta, Veterinario, Motivo, Animal, Cliente)
-                                       .join(Veterinario, Consulta.id_vet1 == Veterinario.id_vet)
-                                       .join(Animal, Consulta.id_animal1 == Animal.id_animal)
-                                       .join(Cliente, Animal.id_cliente1 == Cliente.id_cliente)
-                                       .join(Motivo, Consulta.id_motivo1 == Motivo.id_motivo)).where(
-                    getattr(classe, campo).like(f'%{termo_pesquisa}%'))
-            resultado = db_session.execute(lista_consultas_sql).fetchall()
-            dicion = dicionario_colunas_consulta()
-            return render_template('consulta.html', var_consulta=resultado, dicio=dicion, class_=class_)
+    else:
+        if request.method == 'POST':
+            campo = request.form['campo']
+            print(f'campo : {campo}')
+            classe = dicionario_classes[class_]
+            print(f'class : {classe}')
+            termo_pesquisa = request.form.get('form-pesquisa')
+            print(f'termo : {termo_pesquisa}')
+            if not campo or not termo_pesquisa:
+                flash('Por favor, selecione um campo e insira um termo de pesquisa.')
+                # return redirect(url_for('motivos_func'))
 
-        elif classe == Motivo:
-            consulta = select(classe).where(getattr(classe, campo).like(f"%{termo_pesquisa}%"))
-            lista_resultados = db_session.execute(consulta).scalars()
+    if classe == Consulta:
+        if campo == 'id_cliente':
+            classe = Cliente
 
-            resultado = []
-            for result in lista_resultados:
-                resultado.append(result.serialize_motivo())
-            dicion = dicionario_colunas_motivo()
-            return render_template('motivo.html', var_motivo=resultado, dicio=dicion, class_=class_)
+        if campo in ['id_consulta', 'id_motivo1', 'id_animal1', 'id_vet1', 'id_cliente']:
+            lista_consultas_sql = (select(Consulta, Veterinario, Motivo, Animal, Cliente)
+                                   .join(Veterinario, Consulta.id_vet1 == Veterinario.id_vet)
+                                   .join(Animal, Consulta.id_animal1 == Animal.id_animal)
+                                   .join(Cliente, Animal.id_cliente1 == Cliente.id_cliente)
+                                   .join(Motivo, Consulta.id_motivo1 == Motivo.id_motivo)).where(getattr(classe, campo) == termo_pesquisa)
+        elif campo not in ['id_consulta', 'id_motivo1', 'id_animal1', 'id_vet1', 'id_cliente']:
+            lista_consultas_sql = (select(Consulta, Veterinario, Motivo, Animal, Cliente)
+                                   .join(Veterinario, Consulta.id_vet1 == Veterinario.id_vet)
+                                   .join(Animal, Consulta.id_animal1 == Animal.id_animal)
+                                   .join(Cliente, Animal.id_cliente1 == Cliente.id_cliente)
+                                   .join(Motivo, Consulta.id_motivo1 == Motivo.id_motivo)).where(
+                getattr(classe, campo).like(f'%{termo_pesquisa}%'))
+
+        resultado = db_session.execute(lista_consultas_sql).fetchall()
+        dicion = dicionario_colunas_consulta()
+        print('\n\n\n\n######### PESQUISA ########## \n\n\n\n')
+
+        return render_template('consulta.html', var_consulta=resultado, dicio=dicion, class_=class_, termo=termo_pesquisa, campo=campo)
+
+    elif classe == Motivo:
+        consulta = select(classe).where(getattr(classe, campo).like(f"%{termo_pesquisa}%"))
+        lista_resultados = db_session.execute(consulta).scalars()
+
+        resultado = []
+        for result in lista_resultados:
+            resultado.append(result.serialize_motivo())
+        dicion = dicionario_colunas_motivo()
+        return render_template('motivo.html', var_motivo=resultado, dicio=dicion, class_=class_)
+
 
 @app.route('/clientes/cadastro', methods=['GET', 'POST'])
 def cadastro_clientes_func():

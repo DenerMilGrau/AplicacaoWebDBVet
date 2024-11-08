@@ -11,7 +11,7 @@
                 <p><b>Veterinario:</b> {{vet.nome_vet}}</p>
                 <p><b>MOTIVO:</b> {{motivo.motivo}}</p>
                 <p><b>CLIENTE:</b> {{cliente.nome_cliente}}</p>
-                <a href="{{ url_for('consulta_detalhes_func', id_consulta=consulta.id_consulta) }}?var_consulta=var_consulta">Ver Detalhes</a>
+                <a href="{{ url_for('consulta_detalhes_func', id_consulta=consulta.id_consulta, valor_pesquisado = termo, tipo_pesquisa = campo) }}">Ver Detalhes</a>
 <!-- arrumar isso aqui deixaxr em negrito com css-->
         </div>
     {% endfor %}
