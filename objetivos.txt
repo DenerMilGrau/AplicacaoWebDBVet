@@ -5,9 +5,10 @@ tratar erros**
 
 CSS (position**, paginaçao!, )****
 fazer pagina individual! ******
-barra de pesquisa
+barra de pesquisa** --> Fazer opção de  voltar filtro, count para os resultados exibidos, aplicar para todas tabelas
 order by
 não apagar os campos quando flash
 relatorios e insights$$$$$$$$$$$$$$$$$$ ver com o luis
 
 Verificar DER da SA
+<!--                <a href="{{ url_for('consulta_detalhes_func', id_consulta=consulta.id_consulta) }}">Ver Detalhes</a>-->

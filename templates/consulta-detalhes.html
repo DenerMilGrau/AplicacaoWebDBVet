@@ -1,4 +1,4 @@
-{% extends 'index.html' %}
+{% extends 'base.html' %}
 
 {% block conteudo %}
     <div class="card">
@@ -11,5 +11,6 @@
         <p><b>Horário da Consulta:</b><br> {{ consulta[0].hora }}:{{ consulta[0].minuto }}</p>
 
     </div>
-    <a href="{{url_for('consultas_func')}}"><img id="voltar-icon" alt="voltar" src="https://cdn-icons-png.freepik.com/256/608/608095.png?semt=ais_hybrid"></a>
+    <p>{{var_consulta}}</p>
+    <a href="{{url_for('consultas_func')}}?var_consulta=var_consulta"><img id="voltar-icon" alt="voltar" src="https://cdn-icons-png.freepik.com/256/608/608095.png?semt=ais_hybrid"></a>
 {% endblock %}

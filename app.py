@@ -2,6 +2,27 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from models import Cliente, Animal, db_session, Produto, Veterinario, Categoria, Consulta, Venda, Motivo
 from sqlalchemy import select
 
+
+def dicionario_colunas_motivo():
+    dicion = {
+        "motivo": "Motivo",
+        "categoria_motivo": "Categoria motivo",
+        "valor_motivo": "Valor motivo",
+        "id_motivo": "ID Motivo"
+    }
+    return dicion
+
+
+def dicionario_colunas_consulta():
+    dicion = {
+        "id_consulta": "ID Consulta",
+        "data": "Data",
+        "id_motivo1": "ID Motivo",
+        "id_cliente": "ID Cliente",
+    }
+    return dicion
+
+
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'secret!'
@@ -14,7 +35,7 @@ def index():
 
 @app.route('/home')
 def home():
-    return render_template('index.html')
+    return render_template('base.html')
 
 
 @app.route('/clientes')
@@ -47,13 +68,22 @@ def consultas_func():
         Animal, Consulta.id_animal1 == Animal.id_animal).join(Cliente, Animal.id_cliente1 == Cliente.id_cliente).join(
         Motivo, Consulta.id_motivo1 == Motivo.id_motivo))
 
-    lista_consultas = db_session.execute(lista_consultas_sql).fetchall()
-    print(lista_consultas)
-    return render_template('consulta.html', var_consulta=lista_consultas)
+    resultado = db_session.execute(lista_consultas_sql).fetchall()
+    print(resultado)
+    var_consulta_app = resultado
+    var_consulta_html = request.args.get('var_consulta')
+    print('html:{var_consulta_html}')
+    if var_consulta_html != 'None':
+        resultado = var_consulta_html
+    dicion = dicionario_colunas_consulta()
+    return render_template('consulta.html', var_consulta=resultado, dicio=dicion, class_=Consulta)
 
 
 @app.route('/consultas/<int:id_consulta>')
 def consulta_detalhes_func(id_consulta):
+
+    var_consulta = request.args.get('var_consulta')
+    print(f'detalhes:{var_consulta}')
     consulta_sql = (select(Consulta, Veterinario, Motivo, Animal, Cliente)
                     .where(Consulta.id_consulta == id_consulta)
                     .join(Veterinario, Consulta.id_vet1 == Veterinario.id_vet)
@@ -62,7 +92,7 @@ def consulta_detalhes_func(id_consulta):
                     .join(Motivo, Consulta.id_motivo1 == Motivo.id_motivo))
 
     consulta_detalhada = db_session.execute(consulta_sql).fetchone()
-    return render_template('consulta-detalhes.html', consulta=consulta_detalhada)
+    return render_template('consulta-detalhes.html', consulta=consulta_detalhada, var_consulta=var_consulta)
 
 
 @app.route('/produtos')
@@ -103,7 +133,13 @@ def vendas_func():
 
     lista_vendas = db_session.execute(lista_vendas_sql).fetchall()
 
-    return render_template('venda.html', var_venda=lista_vendas)
+    dicion = {
+        "vendas": "vendaaaa",
+        "cat_venda": "Categoria vemda",
+        "valor venda": "Valor vendaaa",
+    }
+
+    return render_template('venda.html', var_venda=lista_vendas, dicio=dicion, class_=Venda)
 
 
 @app.route('/motivos')
@@ -113,14 +149,63 @@ def motivos_func():
     resultado=[]
     for motivo in lista_motivos:
         resultado.append(motivo.serialize_motivo())
-    dicio = {
-        "motivo": "Motivo",
-        "categoria_motivo": "Categoria motivo",
-        "valor_motivo": "Valor motivo",
-    }
+    dicion = dicionario_colunas_motivo()
+    return render_template('motivo.html', var_motivo=resultado, dicio=dicion, class_=Motivo)
 
-    return render_template('motivo.html', var_motivo=resultado)
 
+dicionario_classes = {
+    "<class 'models.Motivo'>": Motivo,
+    "<class 'models.Consulta'>": Consulta,
+
+}
+
+
+@app.route('/pesquisar_<class_>', methods=['GET', 'POST'])
+def pesquisar_func(class_):
+    global lista_consultas_sql
+    if request.method == 'GET':
+        campo = request.args.get('campo')
+        classe = dicionario_classes[class_]
+    elif request.method == 'POST':
+        campo = request.form['campo']
+        print(f'campo : {campo}')
+        classe = dicionario_classes[class_]
+        print(f'class : {classe}')
+        termo_pesquisa = request.form.get('form-pesquisa')
+        print(f'termo : {termo_pesquisa}')
+        if not campo or not termo_pesquisa:
+            flash('Por favor, selecione um campo e insira um termo de pesquisa.')
+            # return redirect(url_for('motivos_func'))
+
+        if classe == Consulta:
+            if campo == 'id_cliente':
+                classe = Cliente
+            if campo in ['id_consulta', 'id_motivo1', 'id_animal1', 'id_vet1', 'id_cliente']:
+                lista_consultas_sql = (select(Consulta, Veterinario, Motivo, Animal, Cliente)
+                .join(Veterinario,Consulta.id_vet1 == Veterinario.id_vet)
+                .join(Animal, Consulta.id_animal1 == Animal.id_animal)
+                .join(Cliente,Animal.id_cliente1 == Cliente.id_cliente)
+                .join(Motivo, Consulta.id_motivo1 == Motivo.id_motivo)).where(getattr(classe, campo) == termo_pesquisa)
+            elif campo not in ['id_consulta', 'id_motivo1', 'id_animal1', 'id_vet1', 'id_cliente']:
+                lista_consultas_sql = (select(Consulta, Veterinario, Motivo, Animal, Cliente)
+                                       .join(Veterinario, Consulta.id_vet1 == Veterinario.id_vet)
+                                       .join(Animal, Consulta.id_animal1 == Animal.id_animal)
+                                       .join(Cliente, Animal.id_cliente1 == Cliente.id_cliente)
+                                       .join(Motivo, Consulta.id_motivo1 == Motivo.id_motivo)).where(
+                    getattr(classe, campo).like(f'%{termo_pesquisa}%'))
+            resultado = db_session.execute(lista_consultas_sql).fetchall()
+            dicion = dicionario_colunas_consulta()
+            return render_template('consulta.html', var_consulta=resultado, dicio=dicion, class_=class_)
+
+        elif classe == Motivo:
+            consulta = select(classe).where(getattr(classe, campo).like(f"%{termo_pesquisa}%"))
+            lista_resultados = db_session.execute(consulta).scalars()
+
+            resultado = []
+            for result in lista_resultados:
+                resultado.append(result.serialize_motivo())
+            dicion = dicionario_colunas_motivo()
+            return render_template('motivo.html', var_motivo=resultado, dicio=dicion, class_=class_)
 
 @app.route('/clientes/cadastro', methods=['GET', 'POST'])
 def cadastro_clientes_func():

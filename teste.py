@@ -9,5 +9,9 @@ dicio = {
     'nome3': 'valor3'
 }
 
-for name, value in dicio.items():
-    print(name, value)
+# for name, value in dicio.items():
+#
+#     print(name, value)
+
+for item in dicio:
+    print(dicio[item])
