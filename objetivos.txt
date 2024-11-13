@@ -11,4 +11,7 @@ não apagar os campos quando flash
 relatorios e insights$$$$$$$$$$$$$$$$$$ ver com o luis
 
 Verificar DER da SA
-<!--                <a href="{{ url_for('consulta_detalhes_func', id_consulta=consulta.id_consulta) }}">Ver Detalhes</a>-->
+
+####### IMPEDIMENTOS #########
+- PESQUISA SENSITIVE CASE
+-

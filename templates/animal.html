@@ -1,9 +1,13 @@
 {% extends 'index.html' %}
 
 {% block conteudo %}
+
 <h1 class="titulo">Animais</h1>
 
     <button class="botao"><a  href="{{url_for('cadastro_animais_func')}}"> CADASTRAR </a></button>
+{% if pesquisa == True: %}
+    <button class="botao"><a href="{{url_for('animais_func')}}">VOLTAR</a></button>
+{% endif %}
     {% for animal, cliente in var_animal %}
         <div class="card">
 

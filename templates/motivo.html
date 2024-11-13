@@ -1,8 +1,10 @@
 {%extends 'index.html'%}
-
-
-
 {%block conteudo%}
+{% if pesquisa == True: %}
+    <button class="botao"><a href="{{url_for('motivos_func')}}">VOLTAR</a></button>
+{% endif %}
+
+
 
     {% for item in var_motivo%}
         <div class="card">

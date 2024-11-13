@@ -1,10 +1,13 @@
 {%extends 'index.html'%}
 
 {%block conteudo%}
+{% if pesquisa == True: %}
+    <button class="botao"><a href="{{url_for('clientes_func')}}">VOLTAR</a></button>
+{% endif %}
     <h1 class="titulo">Clientes</h1>
 
     <button class="botao"><a  href="{{url_for('cadastro_clientes_func')}}"> CADASTRAR </a></button>
-    <button class="botao"><a  href="{{url_for('clientes_func', order=classificar)}}"> ORDENAR </a></button>
+
 
 
     {% for item in var_cliente%}

@@ -1,12 +1,16 @@
 {% extends 'index.html'%}
 
 {% block conteudo %}
-    {%for item in var_produto%}
+{% if pesquisa == True: %}
+    <button class="botao"><a href="{{url_for('produtos_func')}}">VOLTAR</a></button>
+{% endif %}
+    {%for item, cat in var_produto%}
         <div class="card">
 
             <p><b>ID:</b> {{item.id_produto}}</p>
             <p><b>PRODUTO:</b> {{item.produto}}</p>
             <p><b>PREÇO:</b> {{item.preco}}</p>
+            <p><b>CATEGORIA:</b> {{cat.nome_categoria}}</p>
 <!-- arrumar isso aqui deixaxr em negrito com css-->
         </div>
     {% endfor %}

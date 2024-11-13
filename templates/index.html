@@ -33,7 +33,7 @@
             </div>
         {%-endfor%}
         <div class="head">
-            <form action="{{url_for('pesquisar_func')}}" method="post">
+            <form action="{{url_for('pesquisar_func', class_=class_)}}" method="post">
                 <span class="display-block">
                     <h1>{{class_}}</h1>
                     <input type="text" name="form-pesquisa" placeholder="Pesquisar">
@@ -51,6 +51,7 @@
             {% block titulo %}
             {% endblock titulo %}
         </div>
+        <h2>Nº de resultados: {{numero_resultados}}</h2>
         {% block conteudo %}
         {% endblock conteudo %}
     </main>
